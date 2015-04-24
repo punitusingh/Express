@@ -7,19 +7,21 @@ var express=require("express"),
     fs = require('fs'),
      path    = require("path");
 
+app.set('view engine', 'hbs');
 
 app.get("/",function(req,res){
     res.sendFile(path.join(__dirname+"/index.html"));
 });
 
 app.get("/cm",function(req,res){
-    var img = fs.readFileSync('./resources/images/logo.gif');
-    res.writeHead(204, {'Content-Type': 'image/gif' });
-    res.end(img,'binary');
+    fs.readFile('./resources/images/logo.gif', function(img){
+        res.writeHead(200, {'Content-Type': 'image/gif' });
+        res.end(img,'binary');
+    });
 });
 
 app.get("/cm1",function(req,res){
-    var img = fs.readFileSync('./resources/images/Transparent.gif');
+    var img = fs.readFileSync('./resources/images/Logo.gif');
     res.writeHead(200, {'Content-Type': 'image/gif' });
     res.end(img, 'binary');
 });
@@ -33,5 +35,15 @@ app.get("/cm3",function(req,res){
     res.writeHead(204,{'Content-Type': 'image/gif' });
     res.end();
 });
+
+app.get("/jade",function(req,res){
+    res.render('index',{title:'coming from jade'});
+});
+
+app.get("/hbs",function(req,res){
+    res.render('index',{title:'coming from hbs'});
+});
+
+
 
 app.listen("8080");
